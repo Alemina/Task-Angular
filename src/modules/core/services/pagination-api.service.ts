@@ -10,9 +10,8 @@ export class PaginationApiService {
   }
 
   fetchPaginationInfo(page): Observable<any> {
-    return this.http.get(`https://reqres.in/api/users?page=${page}`)
+    return this.http.get<any>(`https://reqres.in/api/users?page=${page}`)
     .pipe(map(response => {
-      console.log('fetchPaginationInfo', response)
       return {
         total_pages: response.total_pages,
         per_page: response.per_page,

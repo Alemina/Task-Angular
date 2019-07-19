@@ -13,12 +13,9 @@ export class ApiService {
   }
 
   fetchUsers(page): Observable<UserInterface> {
-    return this.http.get('https://reqres.in/api/users?page=' + page).pipe(map(response => {
-      console.log('fetchUsers', response);
+    return this.http.get<any>('https://reqres.in/api/users?page=' + page).pipe(map(response => {
       return response.data;
-      // return
-      // return response.data;
-    })) 
+    }));
   }
 
   fetchPaginationInfo(page: number): Observable<any> {
@@ -27,7 +24,7 @@ export class ApiService {
 
   fetchUserById(id: number): Observable<any> {
     // UserInterface
-    return this.http.get(`https://reqres.in/api/users/${id}`)
+    return this.http.get(`https://reqres.in/api/users/${id}`);
   }
 
 }
