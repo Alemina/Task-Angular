@@ -3,13 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserInterface } from '../../../interfaces/user.interface';
-import { PaginationApiService } from './pagination-api.service';
 
 
 @Injectable()
 export class ApiService {
 
-  constructor(private http: HttpClient, private paginationApiService: PaginationApiService) {
+  constructor(private http: HttpClient) {
   }
 
   fetchUsers(page): Observable<UserInterface> {
@@ -18,13 +17,20 @@ export class ApiService {
     }));
   }
 
-  fetchPaginationInfo(page: number): Observable<any> {
-    return this.paginationApiService.fetchPaginationInfo(page);
+  fetchPaginationInfo(page): Observable<any> {
+    return this.http.get<any>(`https://reqres.in/api/users?page=${page}`)
+    .pipe(map(response => {
+      return {
+        total_pages: response.total_pages,
+        per_page: response.per_page,
+        total: response.total,
+        page: response.page
+      };
+    }));
   }
 
-  fetchUserById(id: number): Observable<any> {
-    // UserInterface
-    return this.http.get(`https://reqres.in/api/users/${id}`);
+  fetchUserById(id: number): Observable<UserInterface> {
+    return this.http.get<UserInterface>(`https://reqres.in/api/users/${id}`).pipe(map(response => response));
   }
 
 }
