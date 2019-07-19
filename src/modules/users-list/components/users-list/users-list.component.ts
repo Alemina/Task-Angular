@@ -3,6 +3,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 import { UserInterface } from '../../../../interfaces/user.interface';
+import { PaginationInterface } from '../../../../interfaces/pagination.interface';
 import { ApiService } from '../../../core/services/api.service';
   //  import { PaginationApiService } from '../../../core/services';
 
@@ -27,14 +28,13 @@ export class UsersListComponent implements OnInit {
       map(data => data.users)
     )
       .subscribe((users: UserInterface[]) => {
-        console.log(users);
         this.userList = users;
       });
 
     this.activatedRoute.data.pipe(
       map(data => data.paginationInfo)
     )
-      .subscribe(paginationInfo => {
+      .subscribe((paginationInfo: PaginationInterface) => {
         this.pagesCount = paginationInfo.total;
       });
   }
